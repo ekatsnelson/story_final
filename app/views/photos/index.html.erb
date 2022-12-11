@@ -32,11 +32,7 @@
       </div>
 
       <div>
-        <label for="owner_id_box">
-          Owner
-        </label>
-
-        <input type="text" id="owner_id_box" name="query_owner_id">
+        <input type="hidden" name="query_owner_id" value="<%= @current_user.id %>">
       </div>
 
       <div>
