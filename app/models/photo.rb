@@ -31,4 +31,27 @@ class Photo < ApplicationRecord
   # Validations
   validates(:owner_id, { :presence => true })
   validates(:image, { :presence => true })
+
+  # Methods
+  def poster
+    return User.where({ :id => self.owner_id }).at(0)
+  end
+
+  def comments
+    return Comment.where({ :photo_id => self.id })
+  end
+
+  def likes
+    return Like.where({ :photo_id => self.id })
+  end
+
+  def fans
+    array_of_user_ids = self.likes.map_relation_to_array(:fan_id)
+
+    return User.where({ :id => array_of_user_ids })
+  end
+
+  def fan_list
+    return self.fans.map_relation_to_array(:username).to_sentence
+  end
 end
