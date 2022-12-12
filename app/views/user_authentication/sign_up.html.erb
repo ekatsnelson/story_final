@@ -1,5 +1,54 @@
-<h1>Sign up</h1>
+    
+<div class="centered">
+  <div class="outlined">
+  <form action="/insert_user" method="post">
+    <div style="padding:4px"></div>
+    <center>
+      <h1>Sign up for MyStory</h1>
+      <h5>Let your story-sharing journey begin</h5>
+    </center>
 
+    <div class="form-group">
+      <label for="email_box">Email</label>
+      <input class="form-control" id="email_box" name="query_email" placeholder="Choose an email..." type="text">
+    </div>
+                  
+    <div class="form-group">
+      <label for="username_box">Username</label>
+      <input class="form-control" type="text" id="username_box" placeholder="Choose a username..." name="query_username">
+    </div>
+
+    <div class="form-group">
+      <label for="password_box">Password</label>
+      <input class="form-control" id="password_box" name="query_password" placeholder="Choose a password..." type="password">
+    </div>
+
+    <div class="form-group">
+      <label for="password_confirmation_box">Password Confirmation</label>
+      <input class="form-control" id="password_confirmation_box" name="query_password_confirmation" placeholder="Confirm your password..." type="password">
+    </div>
+
+      <br>
+    
+    <div>
+      <input type="hidden" id="sent_follow_requests_count_box" name="query_sent_follow_requests_count" value=0>
+    </div>
+          
+    <div>  
+      <input type="hidden" id="received_follow_requests_count_box" name="query_received_follow_requests_count" value=0>
+    </div>
+          
+    <div>
+      <input type="hidden" id="own_photos_count_box" name="query_own_photos_count" value=0>
+    </div>
+
+    <center><button class="btn btn-primary">Create story</button></center>
+    <div style="padding:8px"></div>
+  </form>
+  </div>
+</div>
+
+<!--
 <form action="/insert_user" method="post">
 
   <div>
@@ -9,13 +58,11 @@
                  
   <div>
     <label for="username_box">Username</label>
-      
     <input type="text" id="username_box" name="query_username">
   </div>
          
   <div>
     <label for="sent_follow_requests_count_box">Sent follow requests count</label>
-      
     <input type="text" id="sent_follow_requests_count_box" name="query_sent_follow_requests_count">
   </div>
          
@@ -27,7 +74,6 @@
          
   <div>
     <label for="own_photos_count_box">Own photos count</label>
-      
     <input type="text" id="own_photos_count_box" name="query_own_photos_count">
   </div>
     
@@ -45,6 +91,7 @@
     Sign up
   </button>
 </form>
+-->
 
 <hr>
 

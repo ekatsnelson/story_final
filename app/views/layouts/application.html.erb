@@ -132,7 +132,7 @@
         <div class="navbar-collapse collapse flex-grow-1 justify-content-center" id="navbar5">
           <ul class="navbar-nav mx-auto">
             <li class="nav-item">
-              <a class="nav-link txt" href="/photos" style="font-weight:bold">Stories</a>
+              <a class="nav-link txt" href="/photos" style="font-weight:bold">Discover</a>
             </li>
             <li class="nav-item">
               <a class="nav-link txt" href="/likes" style="font-weight:bold">Likes</a>
@@ -143,18 +143,21 @@
             <li class="nav-item">
               <a class="nav-link txt" href="/follow_requests" style="font-weight:bold">Follow Requests</a>
             </li>
-            
-            <li class="nav-item">
-              <a class="nav-link txt" href="/user_sign_in" style="font-weight:bold">Sign In</a>
-            </li>
-            
-            
-            <li class="nav-item">
-              <a class="nav-link txt" href="/user_sign_out" style="font-weight:bold">Sign Out</a>
-            </li>
-            <li class="nav-item">
+
+            <% if @current_user == nil %>
+              <li class="nav-item">
+                <a class="nav-link txt" href="/user_sign_in" style="font-weight:bold">Sign In</a>
+              </li>
+              <li class="nav-item">
               <a class="nav-link txt" href="/user_sign_up" style="font-weight:bold">Sign Up</a>
-            </li>
+              </li>
+            <% else %>          
+              <li class="nav-item">
+                <a class="nav-link txt" href="/user_sign_out" style="font-weight:bold">Sign Out</a>
+              </li>
+            <% end %>
+
+            
 
           </ul>
         </div>
