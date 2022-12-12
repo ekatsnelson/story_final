@@ -2,12 +2,12 @@
   <div>
     <br>
     <center>
-      <h1>For You Page</h1>
+      <h1>Personal Page</h1>
     </center>
   </div>
 </div>
 
-<!--
+
 <hr>
 <div>
   <div>
@@ -56,7 +56,7 @@
     </div>
   </div>
 </div>
--->
+
 
 <hr>
 <div>
@@ -68,10 +68,7 @@
       <% @list_of_photos.each do |a_photo| %>
       
 
-              <% following_array = @current_user.following.to_a %>
-              <% following_array.each do |a_user| %>
-                <% #= a_user.id %>
-                <% if a_user.id == a_photo.owner_id %>
+                <% if @current_user.id == a_photo.owner_id %>
                   
                   <% already_follows = "True" %>
                     <tr>
@@ -80,9 +77,13 @@
                       <div class="card">
                         <div class="card-header">
                           <div style="padding: 4px"></div>
-                            
+                          <div style="display: flex; justify-content: flex-end">
+                              <form action="/photos/<%= a_photo.id %>" method="get">
+                                <button class="btn btn-outline-primary">Edit</button>
+                              </form>
+                            </div>   
 
-                            <h5><%= a_photo.owner.username.capitalize() %></h5>
+                                        <h5><%= a_photo.owner.username.capitalize() %></h5>
             </div>
 
             <div class="card-header">
@@ -154,7 +155,6 @@
 
 
 
-                <% end %>
               <% end %>
 
   </table>

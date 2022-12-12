@@ -15,6 +15,14 @@ class PhotosController < ApplicationController
     render({ :template => "photos/for_you.html.erb" })
   end
 
+  def profile
+    matching_photos = Photo.all
+
+    @list_of_photos = matching_photos.order({ :created_at => :desc })
+
+    render({ :template => "photos/profile.html.erb" })
+  end
+
   def show
     the_id = params.fetch("path_id")
 
