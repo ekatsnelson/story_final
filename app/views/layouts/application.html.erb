@@ -14,36 +14,152 @@
     <%= stylesheet_link_tag "application", media: "all" %>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.css">
 
+    <!-- 
+    <style>
+      ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: #333;
+      }
+
+      li {
+        float: left;
+      }
+
+      li a {
+        display: block;
+        color: white;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+      }
+
+      li a:hover:not(.active) {
+        background-color: #111;
+      }
+
+      .active {
+        background-color: #04AA6D;
+      }
+    </style>
+
+    -->
+
+    <style>
+      .active_item {
+          background-color: #FDD017;
+        }
+      .nav-link.active {
+        color: yellow;
+      }
+
+      .nav-item:active {
+        color: yellow;
+      }
+
+      .nav-link.txt {
+        color: white;
+      }
+      .nav-link:hover {
+        color: lightgreen;
+      }
+
+    </style>
+
   </head>
 
   <body>
-    <nav class="navbar navbar-expand-sm navbar-light" style="background-color: #e3f2fd;">
+
+    <!--
+    style="background-color: #FFF380;"
+    -->
+    <!--
+    <nav class="navbar navbar-expand-sm navbar-dark bg-success">
       <div class="container-fluid">
-        <a class="navbar-brand" href="/">Navbar w/ text</a>
+        <a class="navbar-brand" href="/">MyStory   </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarText">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="/photos">Home</a>
+              <a class="nav-link txt" aria-current="page" href="/photos">Stories</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Features</a>
+              <a class="nav-link txt" href="/likes">Likes</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Pricing</a>
+              <a class="nav-link txt" href="/comments">Comments</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link txt" href="/follow_requests">Follow Requests</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link txt" href="/user_sign_in">Sign In</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link txt" href="/user_sign_out">Sign Out</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link txt" href="/user_sign_up">Sign Up</a>
             </li>
           </ul>
-          <span class="navbar-text">
-            Navbar text with an inline element
-          </span>
+        </div>
+      </div>
+    </nav>
+    -->
+
+    <nav class="navbar navbar-expand-sm navbar-dark bg-success flex-sm-nowrap flex-wrap">
+      <div class="container-fluid">
+        <button class="navbar-toggler flex-grow-sm-1 flex-grow-0 me-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbar5">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <span class="navbar-brand flex-grow-1">MyStory</span>
+        <div class="navbar-collapse collapse flex-grow-1 justify-content-center" id="navbar5">
+          <ul class="navbar-nav mx-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="/photos">Stories</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/likes">Likes</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/comments">Comments</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/follow_requests">Follow Requests</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/user_sign_in">Sign In</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/user_sign_out">Sign Out</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/user_sign_up">Sign Up</a>
+            </li>
+
+
+            <li class="nav-item">
+                <a class="nav-link" href="#">Link</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Codeply</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Link</a>
+            </li>
+          </ul>
+        </div>
+        <div class="flex-grow-1">
+            <!--spacer-->
         </div>
       </div>
     </nav>
 
-
-    hi
+    <!--
 
     <ul>
       <li>
@@ -69,6 +185,8 @@
         <a href="/comments">Comments</a>
       </li>
     </ul>
+    -->
+
     <%= yield %>
   </body>
 </html>
