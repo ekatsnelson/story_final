@@ -136,19 +136,75 @@
               </center>
               <br>
               <center><img src="<%= a_photo.image %>" style="width:300px;height:200px;"></center> 
-              
-              <% if a_photo.comments.at(0) %>
-                <h6 class="card-text">Anonymous comments</h6>
-                <p class="card-text"><%= a_photo.comments.at(0).body %></p>
-              <% else %>
-                <p class="card-text">No comments</p>
+
+
+              <%# LIKE BUTTON !! %>
+              <% liked_array = @current_user.following.to_a %>
+              <% following_array.each do |a_user| %>
+                <% #= a_user.id %>
+                <% if a_user.id == a_photo.owner_id && @current_user.id != a_photo.owner_id %>
+                  <% count += 1 %>
+                  <% already_follows = "True" %>
+                  <% request_id = FollowRequest.where({ :sender_id => @current_user.id }).where({ :recipient_id => a_photo.owner_id }).at(0).id %>
+                  <% #= request_id %>
+                  <div style="display: flex; justify-content: flex-end">
+                    <form action="/delete_follow_request/<%= request_id %>" method="post">
+                      <button class="btn btn-outline-primary">Unfollow</button>
+                    </form>
+                  </div>                  
+                <% end %>
               <% end %>
-              <a href="#" class="btn btn-primary">Go somewhere</a>
+
+              <% if count == 0 && @current_user.id != a_photo.owner_id %>
+                <% already_follows = "False" %>
+                <div style="display: flex; justify-content: flex-end">
+                  <form action="/insert_follow_request" method="post">
+                    <input type="hidden" name="query_sender_id" value="<%= @current_user.id %>">
+                    <input type="hidden" name="query_recipient_id" value="<%= a_photo.owner_id %>">
+                    <button class="btn btn-primary">Follow + </button>
+                  </form>
+                </div>
+              <% end %>
+
+
+              
+              <a href="#" class="btn btn-primary">Like</a>
             </div>
 
+
+
+
             <div class="card-footer">
-              hello
+              <div>
+                <form action="/insert_comment" method="post">
+
+                  <div class="form-group">
+                    <label for="body_box">Add a comment:</label>
+                    <input type="text" class="form-control" id="body_box" name="query_body">
+                  </div>
+                  <input type="hidden" name="query_commenter_id" value="<%= @current_user.id %>">
+                  <input type="hidden" name="query_photo_id" value="<%= a_photo.id %>">
+                  <div style="padding: 2px"></div>
+                  <div style="display: flex; justify-content: flex-end">
+                    <button class="btn btn-outline-primary"> Post comment </button>
+                  </div>
+              </div>
+
+            </form>
             </div>
+            
+
+
+            <% comments_array = a_photo.comments.to_a %>
+            <% if comments_array.length() > 0 %>
+              <% comments_array.each do |a_comment| %>
+              <div class="card-footer"><%= a_comment.body %></div>
+              <% end %>
+            <% else %>
+              <div class="card-footer" style="color:#6699CC;">No comments</div>
+            <% end %>
+
+
             
             <div class="card-footer text-muted">
               <%= time_ago_in_words(a_photo.created_at) %> ago
