@@ -139,36 +139,36 @@
 
 
               <%# LIKE BUTTON !! %>
-              <% liked_array = @current_user.following.to_a %>
-              <% following_array.each do |a_user| %>
-                <% #= a_user.id %>
-                <% if a_user.id == a_photo.owner_id && @current_user.id != a_photo.owner_id %>
-                  <% count += 1 %>
-                  <% already_follows = "True" %>
-                  <% request_id = FollowRequest.where({ :sender_id => @current_user.id }).where({ :recipient_id => a_photo.owner_id }).at(0).id %>
-                  <% #= request_id %>
-                  <div style="display: flex; justify-content: flex-end">
-                    <form action="/delete_follow_request/<%= request_id %>" method="post">
-                      <button class="btn btn-outline-primary">Unfollow</button>
-                    </form>
-                  </div>                  
+              <% photo_likes_array = a_photo.likes.to_a %>
+
+              <% if photo_likes_array.length() > 0 %>
+                <% photo_likes_array.each do |a_like| %>
+                  <% #= a_user.id %>
+                  <% if a_like.user_id == @current_user.id %>
+                    <% count += 1 %>
+                    <% already_liked = "True" %>
+                    <% like_id = Like.where({ :user_id => @current_user.id }).where({ :photo_id => a_photo.id }).at(0).id %>
+                    <% #= request_id %>
+                    <div style="display: flex; justify-content: flex-start">
+                      <form action="/delete_like/<%= like_id %>" method="post">
+                        <button class="btn btn-outline-primary">Unlike</button>
+                      </form>
+                    </div>                  
+                  <% end %>
                 <% end %>
               <% end %>
 
-              <% if count == 0 && @current_user.id != a_photo.owner_id %>
-                <% already_follows = "False" %>
-                <div style="display: flex; justify-content: flex-end">
-                  <form action="/insert_follow_request" method="post">
-                    <input type="hidden" name="query_sender_id" value="<%= @current_user.id %>">
-                    <input type="hidden" name="query_recipient_id" value="<%= a_photo.owner_id %>">
-                    <button class="btn btn-primary">Follow + </button>
+              <% if count == 0 %>
+                <% already_liked = "False" %>
+                <div style="display: flex; justify-content: flex-start">
+                  <form action="/insert_like" method="post">
+                    <input type="hidden" name="query_user_id" value="<%= @current_user.id %>">
+                    <input type="hidden" name="query_photo_id" value="<%= a_photo.id %>">
+                    <button class="btn btn-primary">Like</button>
                   </form>
                 </div>
               <% end %>
-
-
               
-              <a href="#" class="btn btn-primary">Like</a>
             </div>
 
 
