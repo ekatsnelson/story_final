@@ -11,9 +11,7 @@
 
 <div>
   <div>
-    <h2>
-      Add a new story
-    </h2>
+    
 
     
 
@@ -30,81 +28,50 @@
       </div>
     -->
 
-    <hr>
     
-    <form>
-      <div class="centered">
-      <div class="outlined">
-      <div class="form-group">
-        <label for="exampleInputEmail1">Email address</label>
-        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
-        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-      </div>
-      <div class="form-group">
-        <label for="exampleInputPassword1">Password</label>
-        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-      </div>
-      <div class="form-group form-check">
-        <input type="checkbox" class="form-check-input" id="exampleCheck1">
-        <label class="form-check-label" for="exampleCheck1">Check me out</label>
-      </div>
-      <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
-    </div>
-    </div>
-
-    <hr>
-
-
+    <div class="centered">
+    <div class="outlined">
     <form action="/insert_photo" method="post">
-      <div>
-        <label for="caption_box">
-          Caption
-        </label>
+      <div style="padding:4px"></div>
+      <center>
+        <h3>Add a new story</h3>
+      </center>
 
-        <input type="text" id="caption_box" name="query_caption">
+      <div class="form-group">
+        <label for="caption_box">Story</label>
+        <input type="text" class="form-control" id="caption_box" name="query_caption">
+        <small id="storyHelp" class="form-text text-muted">Share your story with the world!</small>
       </div>
 
-      <div>
-        <label for="image_box">
-          Image
-        </label>
-
-        <input type="text" id="image_box" name="query_image">
+      <div class="form-group">
+        <label for="image_box">Image Link</label>
+        <input type="text" class="form-control" id="image_box" name="query_image">
       </div>
+
+      <div class="form-group">
+        <label for="location_box">Location</label>
+        <input type="text" class="form-control" id="location_box" name="query_location">
+      </div>
+
+      <br>
 
       <div>
         <input type="hidden" name="query_owner_id" value="<%= @current_user.id %>">
       </div>
 
       <div>
-        <label for="location_box">
-          Location
-        </label>
-
-        <input type="text" id="location_box" name="query_location">
+        <input type="hidden" name="query_likes_count" id="likes_count_box" value=0>
       </div>
 
       <div>
-        <label for="likes_count_box">
-          Likes count
-        </label>
-
-        <input type="text" id="likes_count_box" name="query_likes_count">
+        <input type="hidden" name="query_comments_count" id="comments_count_box" value=0>
       </div>
 
-      <div>
-        <label for="comments_count_box">
-          Comments count
-        </label>
-
-        <input type="text" id="comments_count_box" name="query_comments_count">
-      </div>
-
-      <button>
-        Create story
-      </button>
+      <center><button class="btn btn-primary">Create story</button></center>
+      <div style="padding:8px"></div>
     </form>
+    </div>
+    </div>
   </div>
 </div>
 
@@ -134,18 +101,56 @@
 
       <% @list_of_photos.each do |a_photo| %>
       <tr>
-        <!--  <td>
-          <%= a_photo.id %>
-        </td>
-        -->
-        <div class="container-sm">
+
+        <% following_array = @current_user.followers.to_a %>
+        <% # is_following = following_array.to_a.include?(a_photo.owner_id) %>
+        <% #= following_array %>
+        <% following_array.each do |a_user| %>
+          <%= a_user.id %>
+          <% if a_user.id == a_photo.owner_id %>
+            <% already_follows = "True" %>
+          <% else %>
+            <% already_follows = "False" %>
+          <% end %>
+          <%= already_follows %>
+        <% end %>
+
+        <div class="container-sm centered">
           <div class="card">
             <div class="card-header">
-              <%= a_photo.owner.username.capitalize() %>
+              <div style="padding: 4px"></div>
+
+              <% if already_follows == "True" %>
+                <% request_id = FollowRequest.where({ :sender_id => @current_user.id }).where({ :recipient_id => a_photo.owner_id }).id %>
+                User.where({ :id => a_photo.owner_id })[0].username
+                <form action="/delete_follow_request/<%=a_photo.owner_id%>" method="post">
+
+                <form action="/delete_follow_request/<%=the_favorite.user.id %>" method="post">
+                <input type="hidden" name="query_other_user_id" value="<%=the_favorite.user.id%>">
+                <button class="btn btn-outline-warning" style="color: #D79334;">Un-favorite</button>
+                </form>
+                
+              <%else%>
+                <form action="/insert_follow_request" method="post">
+                <input type="hidden" name="query_other_user_id" value="<%=a_user.id%>">
+                <button class="btn btn-warning">Favorite!</button>
+                </form>
+                
+              <%end%>
+
+              <div style="display: flex; justify-content: flex-end">
+                <a class="btn btn-primary" href="#" role="button">Follow + </a>
+              </div>
+              <h5><%= a_photo.owner.username.capitalize() %></h5>
+              <h5><%= a_photo.owner_id %></h5>
             </div>
             <div class="card-body">
               <!-- <h5 class="card-title"><%= a_photo.image %></h5> -->
-              <center><h5 class="card-text"><%= a_photo.caption %></h6></center>
+              <center>
+                <div style="padding:3px 40px" align="center">
+                <h6 class="card-text"><%= a_photo.caption %></h6>
+                <div>
+              </center>
               <br>
               <center><img src="<%= a_photo.image %>" style="width:300px;height:200px;"></center> 
               
@@ -155,7 +160,7 @@
               <% else %>
                 <p class="card-text">No comments</p>
               <% end %>
-              <a href="#" class="btn btn-secondary">Go somewhere</a>
+              <a href="#" class="btn btn-primary">Go somewhere</a>
             </div>
 
             <div class="card-footer">

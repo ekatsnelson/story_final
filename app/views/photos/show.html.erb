@@ -1,3 +1,179 @@
+
+<!--
+
+<div>
+  <div>
+    <br>
+    <center>
+      <h1>Story Feed</h1>
+    </center>
+  </div>
+</div>
+
+<hr>
+
+<div>
+  <div>
+    
+
+    
+
+    
+    <div class="centered">
+    <div class="outlined">
+    <form action="/insert_photo" method="post">
+      <center>
+        <h3>Add a new story</h3>
+      </center>
+
+      <div class="form-group">
+        <label for="caption_box">Story</label>
+        <input type="text" class="form-control" id="caption_box" name="query_caption">
+        <small id="storyHelp" class="form-text text-muted">Share your story with the world!</small>
+      </div>
+
+      <div class="form-group">
+        <label for="image_box">Image Link</label>
+        <input type="text" class="form-control" id="image_box" name="query_image">
+      </div>
+
+      <div class="form-group">
+        <label for="location_box">Location</label>
+        <input type="text" class="form-control" id="location_box" name="query_location">
+      </div>
+
+      <br>
+
+      <div>
+        <input type="hidden" name="query_owner_id" value="<%= @current_user.id %>">
+      </div>
+
+      <div>
+        <input type="hidden" id="likes_count_box" value=0>
+      </div>
+
+      <div>
+        <input type="hidden" id="comments_count_box" value=0>
+      </div>
+
+      <center><button class="btn btn-primary">Create story</button></center>
+    </form>
+    </div>
+    </div>
+  </div>
+</div>
+
+<hr>
+<div>
+  <div>
+    <table border="1">
+      <tr>
+ 
+
+        <th>Story</th>
+        <th>Image</th>
+        <th>Owner</th>
+        <th>Location</th>
+        <th>Likes count</th>
+        <th>Comments count</th>
+        <th>Created at</th>
+        <th>Last edited</th>
+        <th> </th>
+      </tr>
+      -->
+
+      <% @list_of_photos.each do |a_photo| %>
+      <tr>
+        <!--  <td>
+          <%= a_photo.id %>
+        </td>
+        -->
+        <div class="container-sm">
+          <div class="card">
+            <div class="card-header">
+              <%= a_photo.owner.username.capitalize() %>
+            </div>
+            <div class="card-body">
+              <!-- <h5 class="card-title"><%= a_photo.image %></h5> -->
+              <center><h5 class="card-text"><%= a_photo.caption %></h6></center>
+              <br>
+              <center><img src="<%= a_photo.image %>" style="width:300px;height:200px;"></center> 
+              
+              <% if a_photo.comments.at(0) %>
+                <h6 class="card-text">Anonymous comments</h6>
+                <p class="card-text"><%= a_photo.comments.at(0).body %></p>
+              <% else %>
+                <p class="card-text">No comments</p>
+              <% end %>
+              <a href="#" class="btn btn-secondary">Go somewhere</a>
+            </div>
+
+            <div class="card-footer">
+              hello
+            </div>
+            
+            <div class="card-footer text-muted">
+              <%= time_ago_in_words(a_photo.created_at) %> ago
+            </div>
+          </div>
+        </div>
+        <br>
+        <br>
+
+        <!-- >
+        <td>
+          <%= a_photo.caption %>
+        </td>
+
+        <td>
+          <img src="<%= a_photo.image %>" style="width:300px;height:200px;">
+        </td>
+
+        
+        <td>
+          <%= a_photo.owner.username %>  User.where({ :id => a_photo.owner_id })[0].username 
+          </td>
+        
+
+        <td>
+          <%= a_photo.location %>
+        </td>
+
+        <td>
+          <%= a_photo.likes_count %>
+        </td>
+
+        <td>
+          <%= a_photo.comments_count %>
+        </td>
+
+        <td>
+          <%= time_ago_in_words(a_photo.created_at) %> ago
+        </td>
+        <td>
+          <%= time_ago_in_words(a_photo.updated_at) %> ago
+        </td>
+
+        <td>
+          <a href="/photos/<%= a_photo.id %>">
+            Show details
+          </a>
+        </td>
+      </tr>
+      <-->
+
+      <% end %>
+    </table>
+  </div>
+</div>
+
+<hr>
+
+
+
+-->
+
+
 <div>
   <div>
     <h1>
