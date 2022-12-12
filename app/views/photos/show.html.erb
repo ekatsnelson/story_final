@@ -1,6 +1,5 @@
 
-
-
+<div style="padding: 20px">
 <div>
   <div>
   
@@ -17,7 +16,7 @@
 
       <div>
         <a href="/delete_photo/<%= @the_photo.id %>">
-          Delete photo
+          Delete story
         </a>
       </div>
       
@@ -25,7 +24,7 @@
 
     <dl>
       <dt>
-        Caption
+        Story
       </dt>
       <dd>
         <%= @the_photo.caption %>
@@ -68,13 +67,13 @@
 <div>
   <div>
     <h2>
-      Edit photo
+      Edit story
     </h2>
 
     <form action="/modify_photo/<%= @the_photo.id %>"  method="post" >
       <div>
         <label for="caption_box">
-          Caption
+          Story
         </label>
 
         <input type="text" id="caption_box" name="query_caption" value="<%= @the_photo.caption %>">
@@ -109,10 +108,9 @@
       </div>
 
       <button class="btn btn-primary">
-        Update photo
+        Update story
       </button>
     </form>
   </div>
 </div>
-
-<hr>
+</div>

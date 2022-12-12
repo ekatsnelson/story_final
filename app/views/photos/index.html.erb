@@ -138,14 +138,14 @@
               <center><img src="<%= a_photo.image %>" style="width:300px;height:200px;"></center> 
 
 
-              <%# LIKE BUTTON !! %>
+              <% # LIKE BUTTON !! %>
               <% photo_likes_array = a_photo.likes.to_a %>
-
+              <% counter = 0 %>
               <% if photo_likes_array.length() > 0 %>
                 <% photo_likes_array.each do |a_like| %>
-                  <% #= a_user.id %>
+                  <% #= a_like.user_id %>
                   <% if a_like.user_id == @current_user.id %>
-                    <% count += 1 %>
+                    <% counter += 1 %>
                     <% already_liked = "True" %>
                     <% like_id = Like.where({ :user_id => @current_user.id }).where({ :photo_id => a_photo.id }).at(0).id %>
                     <% #= request_id %>
@@ -158,7 +158,7 @@
                 <% end %>
               <% end %>
 
-              <% if count == 0 %>
+              <% if counter == 0 %>
                 <% already_liked = "False" %>
                 <div style="display: flex; justify-content: flex-start">
                   <form action="/insert_like" method="post">
