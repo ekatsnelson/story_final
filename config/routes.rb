@@ -65,6 +65,7 @@ Rails.application.routes.draw do
   # READ
   get("/", { :controller => "photos", :action => "index" })
   get("/photos", { :controller => "photos", :action => "index" })
+  get("/photos/for_you", { :controller => "photos", :action => "for_you" })
 
   get("/photos/:path_id", { :controller => "photos", :action => "show" })
 

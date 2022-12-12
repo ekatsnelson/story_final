@@ -39,8 +39,8 @@ class UserAuthenticationController < ApplicationController
   def create
     @user = User.new
     @user.email = params.fetch("query_email")
-    @user.password_digest = params.fetch("query_password") #password_digest
-    @user.password_confirmation = params.fetch("query_password_confirmation")
+    @user.password_digest = params.fetch("query_password") #password
+    #@user.password_confirmation = params.fetch("query_password_confirmation")
     @user.username = params.fetch("query_username")
     @user.sent_follow_requests_count = params.fetch("query_sent_follow_requests_count")
     @user.received_follow_requests_count = params.fetch("query_received_follow_requests_count")

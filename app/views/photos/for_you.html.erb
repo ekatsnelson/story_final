@@ -1,0 +1,264 @@
+<div>
+  <div>
+    <br>
+    <center>
+      <h1>Story Feed</h1>
+    </center>
+  </div>
+</div>
+
+<hr>
+
+<div>
+  <div>
+    
+
+    
+
+    <!--
+    <hr>
+      <div style="padding:10px; border:1px solid red;" align="center" valign="middle">
+        <table border="1" align="center">
+        <tr height="100%">
+          <td height="100%" width="100%" valign="middle" align="center">
+            We are launching soon!
+          </td>
+        </tr>
+        </table>
+      </div>
+    -->
+
+    
+    <div class="centered">
+    <div class="outlined">
+    <form action="/insert_photo" method="post">
+      <div style="padding:4px"></div>
+      <center>
+        <h3>Add a new story</h3>
+      </center>
+
+      <div class="form-group">
+        <label for="caption_box">Story</label>
+        <input type="text" class="form-control" id="caption_box" name="query_caption">
+        <small id="storyHelp" class="form-text text-muted">Share your story with the world!</small>
+      </div>
+
+      <div class="form-group">
+        <label for="image_box">Image Link</label>
+        <input type="text" class="form-control" id="image_box" name="query_image">
+      </div>
+
+      <div class="form-group">
+        <label for="location_box">Location</label>
+        <input type="text" class="form-control" id="location_box" name="query_location">
+      </div>
+
+      <br>
+
+      <div>
+        <input type="hidden" name="query_owner_id" value="<%= @current_user.id %>">
+      </div>
+
+      <div>
+        <input type="hidden" name="query_likes_count" id="likes_count_box" value=0>
+      </div>
+
+      <div>
+        <input type="hidden" name="query_comments_count" id="comments_count_box" value=0>
+      </div>
+
+      <center><button class="btn btn-primary">Create story</button></center>
+      <div style="padding:8px"></div>
+    </form>
+    </div>
+    </div>
+  </div>
+</div>
+
+<hr>
+<div>
+  <div>
+    <table border="1">
+      <tr>
+
+
+      <% @list_of_photos.each do |a_photo| %>
+      <tr>
+        <% count = 0 %>
+        <div class="container-sm centered">
+          <div class="card">
+            <div class="card-header">
+              <div style="padding: 4px"></div>
+
+              <% following_array = @current_user.following.to_a %>
+              <% following_array.each do |a_user| %>
+                <% #= a_user.id %>
+                <% if a_user.id == a_photo.owner_id && @current_user.id != a_photo.owner_id %>
+                  <% count += 1 %>
+                  <% already_follows = "True" %>
+                  <% request_id = FollowRequest.where({ :sender_id => @current_user.id }).where({ :recipient_id => a_photo.owner_id }).at(0).id %>
+                  <% #= request_id %>
+                  <div style="display: flex; justify-content: flex-end">
+                    <form action="/delete_follow_request/<%= request_id %>" method="post">
+                      <button class="btn btn-outline-primary">Unfollow</button>
+                    </form>
+                  </div>                  
+                <% end %>
+              <% end %>
+
+              <% if count == 0 && @current_user.id != a_photo.owner_id %>
+                <% already_follows = "False" %>
+                <div style="display: flex; justify-content: flex-end">
+                  <form action="/insert_follow_request" method="post">
+                    <input type="hidden" name="query_sender_id" value="<%= @current_user.id %>">
+                    <input type="hidden" name="query_recipient_id" value="<%= a_photo.owner_id %>">
+                    <button class="btn btn-primary">Follow + </button>
+                  </form>
+                </div>
+              <% end %>
+              
+              <h5><%= a_photo.owner.username.capitalize() %></h5>
+            </div>
+
+            <div class="card-header">
+              <div>
+                <img src="https://cdn-icons-png.flaticon.com/512/17/17736.png" style="width:16px;height:18px;">
+                <%= a_photo.location %>
+              </div>
+            </div>
+
+            <div class="card-body">
+              <div style="padding: 2px"></div>
+              <center>
+                <div style="padding:3px 40px" align="center">
+                <h6 class="card-text"><%= a_photo.caption %></h6>
+                <div>
+              </center>
+              <br>
+              <center><img src="<%= a_photo.image %>" style="width:300px;height:200px;"></center> 
+
+
+              <%# LIKE BUTTON !! %>
+              <% photo_likes_array = a_photo.likes.to_a %>
+
+              <% if photo_likes_array.length() > 0 %>
+                <% photo_likes_array.each do |a_like| %>
+                  <% #= a_user.id %>
+                  <% if a_like.user_id == @current_user.id %>
+                    <% count += 1 %>
+                    <% already_liked = "True" %>
+                    <% like_id = Like.where({ :user_id => @current_user.id }).where({ :photo_id => a_photo.id }).at(0).id %>
+                    <% #= request_id %>
+                    <div style="display: flex; justify-content: flex-start">
+                      <form action="/delete_like/<%= like_id %>" method="post">
+                        <button class="btn btn-outline-primary">Unlike</button>
+                      </form>
+                    </div>                  
+                  <% end %>
+                <% end %>
+              <% end %>
+
+              <% if count == 0 %>
+                <% already_liked = "False" %>
+                <div style="display: flex; justify-content: flex-start">
+                  <form action="/insert_like" method="post">
+                    <input type="hidden" name="query_user_id" value="<%= @current_user.id %>">
+                    <input type="hidden" name="query_photo_id" value="<%= a_photo.id %>">
+                    <button class="btn btn-primary">Like</button>
+                  </form>
+                </div>
+              <% end %>
+              
+            </div>
+
+
+
+
+            <div class="card-footer">
+              <div>
+                <form action="/insert_comment" method="post">
+
+                  <div class="form-group">
+                    <label for="body_box">Add a comment:</label>
+                    <input type="text" class="form-control" id="body_box" name="query_body">
+                  </div>
+                  <input type="hidden" name="query_commenter_id" value="<%= @current_user.id %>">
+                  <input type="hidden" name="query_photo_id" value="<%= a_photo.id %>">
+                  <div style="padding: 2px"></div>
+                  <div style="display: flex; justify-content: flex-end">
+                    <button class="btn btn-outline-primary"> Post comment </button>
+                  </div>
+              </div>
+
+            </form>
+            </div>
+            
+
+
+            <% comments_array = a_photo.comments.to_a %>
+            <% if comments_array.length() > 0 %>
+              <% comments_array.each do |a_comment| %>
+              <div class="card-footer"><%= a_comment.body %></div>
+              <% end %>
+            <% else %>
+              <div class="card-footer" style="color:#6699CC;">No comments</div>
+            <% end %>
+
+
+            
+            <div class="card-footer text-muted">
+              <%= time_ago_in_words(a_photo.created_at) %> ago
+            </div>
+          </div>
+        </div>
+        <br>
+        <br>
+
+        <!-- >
+        <td>
+          <%= a_photo.caption %>
+        </td>
+
+        <td>
+          <img src="<%= a_photo.image %>" style="width:300px;height:200px;">
+        </td>
+
+        
+        <td>
+          <%= a_photo.owner.username %>  User.where({ :id => a_photo.owner_id })[0].username 
+          </td>
+        
+
+        <td>
+          <%= a_photo.location %>
+        </td>
+
+        <td>
+          <%= a_photo.likes_count %>
+        </td>
+
+        <td>
+          <%= a_photo.comments_count %>
+        </td>
+
+        <td>
+          <%= time_ago_in_words(a_photo.created_at) %> ago
+        </td>
+        <td>
+          <%= time_ago_in_words(a_photo.updated_at) %> ago
+        </td>
+
+        <td>
+          <a href="/photos/<%= a_photo.id %>">
+            Show details
+          </a>
+        </td>
+      </tr>
+      <-->
+
+      <% end %>
+    </table>
+  </div>
+</div>
+
+<hr>
