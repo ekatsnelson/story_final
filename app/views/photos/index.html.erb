@@ -80,63 +80,34 @@
   <div>
     <table border="1">
       <tr>
-        <!--
-        <th>
-          ID
-        </th>
-        -->
 
-        <!-- 
-        <th>Story</th>
-        <th>Image</th>
-        <th>Owner</th>
-        <th>Location</th>
-        <th>Likes count</th>
-        <th>Comments count</th>
-        <th>Created at</th>
-        <th>Last edited</th>
-        <th> </th>
-      </tr>
-      -->
 
       <% @list_of_photos.each do |a_photo| %>
       <tr>
-
-        <% following_array = @current_user.followers.to_a %>
-        <% # is_following = following_array.to_a.include?(a_photo.owner_id) %>
-        <% #= following_array %>
-        <% following_array.each do |a_user| %>
-          <%= a_user.id %>
-          <% if a_user.id == a_photo.owner_id %>
-            <% already_follows = "True" %>
-          <% else %>
-            <% already_follows = "False" %>
-          <% end %>
-          <%= already_follows %>
-        <% end %>
 
         <div class="container-sm centered">
           <div class="card">
             <div class="card-header">
               <div style="padding: 4px"></div>
 
-              <% if already_follows == "True" %>
-                <% request_id = FollowRequest.where({ :sender_id => @current_user.id }).where({ :recipient_id => a_photo.owner_id }).id %>
-                User.where({ :id => a_photo.owner_id })[0].username
-                <form action="/delete_follow_request/<%=a_photo.owner_id%>" method="post">
+              <% following_array = @current_user.following.to_a %>
+              <% following_array %>
+              <% following_array.each do |a_user| %>
+                <%= a_user.id %>
+                <% if a_user.id == a_photo.owner_id %>
+                  <% already_follows = "True" %>
+                  <% request_id = FollowRequest.where({ :sender_id => @current_user.id }).where({ :recipient_id => a_photo.owner_id }).at(0).id %>
+                  <%= request_id %>
+                  <form action="/delete_follow_request/<%=request_id%>" method="post">
+                    <input type="hidden" name="query_other_user_id" value="<%=the_favorite.user.id%>">
+                    <button class="btn btn-outline-primary" style="color: #D79334;">Unfollow</button>
+                  </form>
+                <% else %>
+                  <% already_follows = "False" %>
+                <% end %>
+                <%= already_follows %>
+              <% end %>
 
-                <form action="/delete_follow_request/<%=the_favorite.user.id %>" method="post">
-                <input type="hidden" name="query_other_user_id" value="<%=the_favorite.user.id%>">
-                <button class="btn btn-outline-warning" style="color: #D79334;">Un-favorite</button>
-                </form>
-                
-              <%else%>
-                <form action="/insert_follow_request" method="post">
-                <input type="hidden" name="query_other_user_id" value="<%=a_user.id%>">
-                <button class="btn btn-warning">Favorite!</button>
-                </form>
-                
-              <%end%>
 
               <div style="display: flex; justify-content: flex-end">
                 <a class="btn btn-primary" href="#" role="button">Follow + </a>
