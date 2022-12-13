@@ -42,6 +42,7 @@ Rails.application.routes.draw do
 
   # CREATE
   post("/insert_like", { :controller => "likes", :action => "create" })
+  post("/insert_like_foryou", { :controller => "likes", :action => "create_foryou" })
 
   # READ
   get("/likes", { :controller => "likes", :action => "index" })
@@ -54,6 +55,10 @@ Rails.application.routes.draw do
 
   # DELETE
   post("/delete_like/:path_id", { :controller => "likes", :action => "destroy" })
+
+  post("/delete_like_foryou/:path_id", { :controller => "likes", :action => "destroy_foryou" })
+
+
 
   #------------------------------
 

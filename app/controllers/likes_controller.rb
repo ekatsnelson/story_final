@@ -30,6 +30,20 @@ class LikesController < ApplicationController
     end
   end
 
+  def create_foryou
+    the_like = Like.new
+    the_like.user_id = params.fetch("query_user_id")
+    the_like.photo_id = params.fetch("query_photo_id")
+
+    if the_like.valid?
+      the_like.save
+      redirect_to("/photos/foryou", { :notice => "Like created successfully." })
+    else
+      redirect_to("/photos/foryou", { :alert => the_like.errors.full_messages.to_sentence })
+    end
+  end
+
+
   def update
     the_id = params.fetch("path_id")
     the_like = Like.where({ :id => the_id }).at(0)
@@ -53,4 +67,15 @@ class LikesController < ApplicationController
 
     redirect_to("/photos", { :notice => "Like deleted successfully."} )
   end
+
+  def destroy_foryou
+    the_id = params.fetch("path_id")
+    the_like = Like.where({ :id => the_id }).at(0)
+
+    the_like.destroy
+
+    redirect_to("/photos/foryou", { :notice => "Like deleted successfully."} )
+  end
+
 end
+
