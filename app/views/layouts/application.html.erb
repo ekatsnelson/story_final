@@ -164,6 +164,22 @@
       </div>
     </nav>
 
+    <% if notice.present? %>
+      <div class="centered"> 
+      <div class="alert alert-success">
+      <%= notice %>
+      </div>
+      </div>
+    <% end %>
+
+    <% if alert.present? %>
+      <div class="centered"> 
+      <div class="alert alert-warning">
+      <%= alert %>
+      </div>
+      </div>
+    <% end %>
+
     <!--
 
     <ul>
